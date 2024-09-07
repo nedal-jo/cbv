@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}Printers List{% endblock %}
+
+{% block content %}
+    <h1>List of Printers</h1>
+    
+    <!-- Filter by location -->
+    <div class="mb-4">
+        <h3>Filter by Location:</h3>
+        <a href="{% url 'printers-list' %}?location=Al Bidda Tower" class="btn btn-info">Al Bidda Tower</a>
+        <a href="{% url 'printers-list' %}?location=Al Sadd Club" class="btn btn-info">Al Sadd Club</a>
+        <a href="{% url 'printers-list' %}?location=Al Duhail Club" class="btn btn-info">Al Duhail Club</a>
+        <a href="{% url 'printers-list' %}" class="btn btn-secondary">Show All</a>
+    </div>
+    
+    <!-- Printer List Table -->
+    <table class="table table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>#</th> <!-- Sequence column -->
+                <th>Type</th>
+                <th>Status</th>
+                <th>Serial Number</th>
+                <th>Location</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for printer in printers %}
+                <tr>
+                    <td>{{ forloop.counter }}</td> <!-- Sequence number -->
+                    <td>{{ printer.printer_type }}</td>
+                    <td>{{ printer.printer_status }}</td>
+                    <td><a href="{% url 'printer-details' printer.id %}">{{ printer.serial_number }}</a></td>
+                    <td>{{ printer.location }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="4" class="text-center">No Printers available.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <!-- Pagination controls -->
+    <nav>
+        <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
+            {% endif %}
+            <li class="page-item active"><span class="page-link">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span></li>
+            {% if page_obj.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+{% endblock %}

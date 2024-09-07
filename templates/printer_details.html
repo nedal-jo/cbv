@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Printer Details{% endblock %}
+
+{% block content %}
+    <div class="container mt-4">
+        <h1>Printer Details</h1>
+        
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <th>Serial Number</th>
+                    <td>{{ object.serial_number }}</td>
+                </tr>
+                <tr>
+                    <th>Type</th>
+                    <td>{{ object.printer_type }}</td>
+                </tr>
+                <tr>
+                    <th>Status</th>
+                    <td>{{ object.printer_status }}</td>
+                </tr>
+                <tr>
+                    <th>Location</th>
+                    <td>{{ object.location }}</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <a href="{% url 'printers-list' %}" class="btn btn-primary">Back to List</a>
+    </div>
+{% endblock %}
